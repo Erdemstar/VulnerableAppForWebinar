@@ -6,16 +6,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["sniff-profile.csproj", "."]
+COPY ["VulnerableAppForWebinar.csproj", "."]
 RUN dotnet restore "./sniff-profile.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "sniff-profile.csproj" -c Release -o /app/build
+RUN dotnet build "VulnerableAppForWebinar.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "sniff-profile.csproj" -c Release -o /app/publish
+RUN dotnet publish "VulnerableAppForWebinar.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "sniff-profile.dll"]
+ENTRYPOINT ["dotnet", "VulnerableAppForWebinar.dll"]

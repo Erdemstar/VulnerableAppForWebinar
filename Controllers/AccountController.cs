@@ -55,7 +55,7 @@ namespace VulnerableAppForWebinar.Controllers
                 return BadRequest(new ErrorResponse() { Message = "The email address which you provided is using another user." });
             }
 
-            if (request.Role == "") { request.Role = "User"; }
+            if (request.Role is null) { request.Role = "User"; }
 
             await _accountRepository.CreateAccount(request);
 
@@ -107,7 +107,7 @@ namespace VulnerableAppForWebinar.Controllers
         }
 
 
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> GetAccounts()
         {
